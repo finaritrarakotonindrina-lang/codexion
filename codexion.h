@@ -3,27 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: finarako <finarako@student.42antananarivo.mg>  #+#  +:+       +#+    */
+/*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-09-18 19:30:28 by finarako          #+#    #+#             */
-/*   Updated: 2026-09-18 19:30:28 by finarako         ###   ########.fr       */
+/*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
+/*   Updated: 2026/09/21 20:35:43 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef CODEXION_H
 # define CODEXION_H
-# include <unistd.h>
-# include <stdio.h>
 # include <pthread.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
 
-struct coder
-{
-    int id;
-    int key;
-};
 
-int main(int argc, char** argv);
-void parcing(char* a, char* b, char* c, char* d, char* e, char* f, char* g,char* str);
+
+int		main(int argc, char **argv);
 
 #endif
