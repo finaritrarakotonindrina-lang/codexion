@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
-/*   Updated: 2026/09/30 20:33:07 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/01 22:45:26 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int	main(int argc, char **argv);
 long	ft_atol(char *str);
 long is_positive(char *argv);
 void parce_arg(int argc, char**argv, t_config *all_config);
+int is_sheduler(char *argv);
 
 #endif

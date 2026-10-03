@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parcing.c                                          :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: finarako <finarako@student.42antananarivo.mg>  #+#  +:+
-	+#+        */
+/*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-09-19 07:42:35 by finarako          #+#    #+#             */
-/*   Updated: 2026-09-19 07:42:35 by finarako         ###   ########.fr       */
+/*   Created: 2026/10/01 21:55:55 by finarako          #+#    #+#             */
+/*   Updated: 2026/10/01 22:24:50 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +55,9 @@ int is_sheduler(char *argv)
 	a = strcmp(argv, "fifo");
 	b = strcmp(argv, "edf");
 	if (a == 0)
-		return (1);
+		return (0);
 	else if (b == 0)
-		return (2);
+		return (1);
 	else
 	{
 		printf("ERROR VALUE! THE PROGRAM STOP! SORRY");
@@ -67,10 +66,11 @@ int is_sheduler(char *argv)
 }
 void parce_arg(int argc, char**argv, t_config *all_config)
 {
-	int i;
-	i = 0;
 	if (argc != 9)
-		return (0);
+	{
+		printf("ERROR VALUE! THE PROGRAM STOP! SORRY");
+		exit(1);
+	}
 	else
 	{
 	all_config->num_coders = is_positive(argv[1]);

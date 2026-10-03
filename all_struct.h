@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/09/30 20:48:36 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/01 22:44:12 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <unistd.h>
 
 typedef struct s_config	t_config;
-
 typedef enum	e_shedulers
 {
 	fifo,

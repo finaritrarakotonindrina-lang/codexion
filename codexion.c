@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   codexion.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: finarako <finarako@student.42antananarivo.mg>  #+#  +:+
-	+#+        */
+/*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026-09-18 19:31:57 by finarako          #+#    #+#             */
-/*   Updated: 2026-09-18 19:31:57 by finarako         ###   ########.fr       */
+/*   Created: 2026/10/01 22:25:18 by finarako          #+#    #+#             */
+/*   Updated: 2026/10/01 22:26:26 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +16,5 @@
 int	main(int argc, char **argv)
 {
 	t_config	all_config;
-	parce_arg(argc, &argv, &all_config);
+	parce_arg(argc, argv, &all_config);
 }
