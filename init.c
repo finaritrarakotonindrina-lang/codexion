@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/04 12:58:19 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/04 14:58:25 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ int coders_init(t_config *config)
 	i = 0;
 	config->coders = malloc(sizeof(t_coder) * config->num_coders);
 	if (!config->coders)
-		return (-1);
+	{
+		free(config->dongles);
+		return(-1);
+	}
 	while (i < config->num_coders)
 	{
 		config->coders[i].id = i + 1;
