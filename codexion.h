@@ -26,5 +26,7 @@ void parce_arg(int argc, char**argv, t_config *all_config);
 int is_sheduler(char *argv);
 int coders_init(t_config *config);
 int dongles_init(t_config *config);
+void pthread_create_init(t_config *config);
+void pthread_join_init(t_config *config);
 
 #endif

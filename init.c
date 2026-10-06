@@ -52,3 +52,28 @@ int coders_init(t_config *config)
 	}
 	return (0);
 }
+void pthread_create_init(t_config *config)
+{
+	int i;
+	i = 0;
+		while (i < config->num_coders)
+	{
+		if (pthread_create(&config.coders[i].thread, NULL, coder_behavior, (void *)&config.coders[i]) != 0)
+		{
+			printf("error creating thread");
+			exit(1);
+		}
+		i++;	
+	}
+}
+
+void pthread_join_init(t_config *config)
+{
+	int j;
+	j = 0;
+		while(j < config->num_coders)
+	{
+		pthread_join(config.coders[j].thread, NULL);
+		j++;
+	}
+}

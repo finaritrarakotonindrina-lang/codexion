@@ -16,29 +16,17 @@
 int	main(int argc, char **argv)
 {
 	int i;
+	int j;
 	i = 0;
+	j = 0;
 	t_config	config;
 	parce_arg(argc, argv, &config);
-	if(dongles_init(&config) == -1)
+	if(dongles_init(&config) == -1 || coders_init(&config) == -1)
 	{
 		printf("error allocating memorie");
 		exit(1);
 	}
-	if(coders_init(&config) == -1)
-	{
-		printf("error allocating memorie");
-		exit(1);
-	}
-	// while (i < config.num_coders)
-	// {
-	// 	printf("coder: %d\n",i + 1);
-	// 	printf("id: %d\n", config.coders[i].id);
-	// 	printf("compile_start: %ld\n", config.coders[i].last_compile_start);
-	// 	printf("left_dobgle: %d\n", config.coders[i].left_dongle->id);
-	// 	printf("right_dongle: %d\n", config.coders[i].right_dongle->id);
-	// 	printf("number_compile: %d\n", config.coders[i].nbr_compile);
-	// 	printf("\n");
-	// 	i++;
-	// }
-	return(0);
+	pthread_create_init(&config);
+	pthread_join_init(&config);
+	return (0);
 }

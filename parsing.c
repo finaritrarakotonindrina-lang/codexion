@@ -64,7 +64,7 @@ int is_sheduler(char *argv)
 		exit(1);
 	}
 }
-void parce_arg(int argc, char**argv, t_config *all_config)
+void parce_arg(int argc, char**argv, t_config *config)
 {
 	if (argc != 9)
 	{
@@ -73,13 +73,13 @@ void parce_arg(int argc, char**argv, t_config *all_config)
 	}
 	else
 	{
-	all_config->num_coders = is_positive(argv[1]);
-	all_config->time_to_burnout = is_positive(argv[2]);
-	all_config->time_to_compile = is_positive(argv[3]);
-	all_config->time_to_debug = is_positive(argv[4]);
-	all_config->time_to_refactor = is_positive(argv[5]);
-	all_config->num_compiles_required = is_positive(argv[6]);
-	all_config->dongle_cooldown = is_positive(argv[7]);
-	all_config->sheduler = is_sheduler(argv[8]);
+	config->num_coders = is_positive(argv[1]);
+	config->time_to_burnout = is_positive(argv[2]);
+	config->time_to_compile = is_positive(argv[3]);
+	config->time_to_debug = is_positive(argv[4]);
+	config->time_to_refactor = is_positive(argv[5]);
+	config->num_compiles_required = is_positive(argv[6]);
+	config->dongle_cooldown = is_positive(argv[7]);
+	config->sheduler = is_sheduler(argv[8]);
 	}
 }
