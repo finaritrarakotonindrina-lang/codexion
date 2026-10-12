@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/04 13:27:46 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/12 20:09:49 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int coders_init(t_config *config);
 int dongles_init(t_config *config);
 void pthread_create_init(t_config *config);
 void pthread_join_init(t_config *config);
-
+void *behaviour_coder(void *args);
 #endif
