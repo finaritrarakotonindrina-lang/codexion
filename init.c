@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/12 20:10:39 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/13 03:13:57 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void pthread_create_init(t_config *config)
 	i = 0;
 		while (i < config->num_coders)
 	{
-		if (pthread_create(&config->coders[i].thread, NULL, behaviour_coder, (void *)&config->coders[i]) != 0)
+		if (pthread_create(&config->coders[i].thread, NULL, coder_behaviour, (void *)&config->coders[i]) != 0)
 		{
 			printf("error creating thread");
 			exit(1);
