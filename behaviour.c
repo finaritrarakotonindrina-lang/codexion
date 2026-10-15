@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/15 23:46:51 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/16 00:16:37 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,6 @@ void taker_dongle(t_dongle *dongle)
 	{
 		pthread_cond_wait(&dongle->cond, &dongle->mutex);
 	}
+	dongle->is_taken == 1;
+	pthread_mutex_unlock(&dongle->mutex);
 }
