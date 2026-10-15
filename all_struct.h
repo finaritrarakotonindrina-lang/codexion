@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/04 16:50:43 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/15 23:00:50 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_dongle
 	int					is_taken;
 	long				last_released_time;
 	pthread_mutex_t		mutex;
+	pthread_cond_t		cond;
 }						t_dongle;
 
 typedef struct s_coder

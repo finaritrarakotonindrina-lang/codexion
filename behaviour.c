@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/15 20:21:35 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/15 23:46:51 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,11 @@ void *coder_behaviour(void *args)
 	return(NULL);
 }
 
+void taker_dongle(t_dongle *dongle)
+{
+	pthread_mutex_lock(&dongle->mutex);
+	while (dongle->is_taken == 1)
+	{
+		pthread_cond_wait(&dongle->cond, &dongle->mutex);
+	}
+}

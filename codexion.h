@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/13 03:13:44 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/15 23:47:08 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,5 @@ int dongles_init(t_config *config);
 void pthread_create_init(t_config *config);
 void pthread_join_init(t_config *config);
 void *coder_behaviour(void *args);
+void taker_dongle(t_dongle *dongle);
 #endif
