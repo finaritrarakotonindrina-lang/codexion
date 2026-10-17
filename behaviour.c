@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/17 17:34:16 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/17 18:52:46 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void *coder_behaviour(void *args)
 	coder = (t_coder *) args;
 	if (coder->id == coder->config->num_coders)
 	{
-		//il prend right_dongle d’abord, puis left_dongle
+
 	}
 	else
 	{
-		//il prend left_dongle d’abord, puis right_dongle
+
 	}
 	return(NULL);
 }
@@ -43,5 +43,15 @@ void taker_dongle(t_dongle *dongle, t_config *config)
 		current_time = get_current_time();
 	}
 	dongle->is_taken = 1;
+	pthread_mutex_unlock(&dongle->mutex);
+}
+void releaser_dongle(t_dongle *dongle)
+{
+	long current_time;
+	current_time = get_current_time();
+	pthread_mutex_lock(&dongle->mutex);
+	dongle->is_taken = 0;
+	dongle->last_released_time = current_time;
+	pthread_cond_broadcast(&dongle->cond);
 	pthread_mutex_unlock(&dongle->mutex);
 }
