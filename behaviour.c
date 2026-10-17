@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/17 18:52:46 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/17 19:24:21 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 long get_current_time()
 {
-	return (0);
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 void *coder_behaviour(void *args)
 {
@@ -47,9 +49,9 @@ void taker_dongle(t_dongle *dongle, t_config *config)
 }
 void releaser_dongle(t_dongle *dongle)
 {
+	pthread_mutex_lock(&dongle->mutex);
 	long current_time;
 	current_time = get_current_time();
-	pthread_mutex_lock(&dongle->mutex);
 	dongle->is_taken = 0;
 	dongle->last_released_time = current_time;
 	pthread_cond_broadcast(&dongle->cond);

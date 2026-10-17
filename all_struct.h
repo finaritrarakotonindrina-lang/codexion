@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/15 23:00:50 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/17 19:28:21 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 typedef struct s_config	t_config;
 typedef enum	e_shedulers

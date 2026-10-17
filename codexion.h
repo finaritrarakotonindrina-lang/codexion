@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/15 23:47:08 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/17 19:28:29 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <sys/time.h>
 
 int	main(int argc, char **argv);
 long	ft_atol(char *str);
@@ -29,5 +30,6 @@ int dongles_init(t_config *config);
 void pthread_create_init(t_config *config);
 void pthread_join_init(t_config *config);
 void *coder_behaviour(void *args);
-void taker_dongle(t_dongle *dongle);
+void taker_dongle(t_dongle *dongle, t_config *config);
+void releaser_dongle(t_dongle *dongle);
 #endif
