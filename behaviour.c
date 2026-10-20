@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/17 19:24:21 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/19 19:43:21 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,21 @@ void *coder_behaviour(void *args)
 	coder = (t_coder *) args;
 	if (coder->id == coder->config->num_coders)
 	{
-
+		taker_dongle(coder->right_dongle, coder->config);
+		taker_dongle(coder->left_dongle, coder->config);
+		coder->last_compile_start = get_current_time();
+		usleep(coder->config->time_to_compile * 1000);
+		releaser_dongle(coder->left_dongle);
+		releaser_dongle(coder->right_dongle);
 	}
 	else
 	{
-
+		taker_dongle(coder->left_dongle, coder->config);
+		taker_dongle(coder->right_dongle, coder->config);
+		coder->last_compile_start = get_current_time();
+		usleep(coder->config->time_to_compile * 1000);
+		releaser_dongle(coder->left_dongle);
+		releaser_dongle(coder->right_dongle);
 	}
 	return(NULL);
 }
