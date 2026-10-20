@@ -6,12 +6,16 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/19 19:43:21 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/20 03:30:59 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all_struct.h"
 #include "codexion.h"
+
+void taker_dongle(t_dongle *dongle, t_config *config);
+void releaser_dongle(t_dongle *dongle);
+void is_release(t_coder *coder);
 
 long get_current_time()
 {
@@ -27,19 +31,13 @@ void *coder_behaviour(void *args)
 	{
 		taker_dongle(coder->right_dongle, coder->config);
 		taker_dongle(coder->left_dongle, coder->config);
-		coder->last_compile_start = get_current_time();
-		usleep(coder->config->time_to_compile * 1000);
-		releaser_dongle(coder->left_dongle);
-		releaser_dongle(coder->right_dongle);
+		is_release(coder);
 	}
 	else
 	{
 		taker_dongle(coder->left_dongle, coder->config);
 		taker_dongle(coder->right_dongle, coder->config);
-		coder->last_compile_start = get_current_time();
-		usleep(coder->config->time_to_compile * 1000);
-		releaser_dongle(coder->left_dongle);
-		releaser_dongle(coder->right_dongle);
+		is_release(coder);
 	}
 	return(NULL);
 }
@@ -66,4 +64,13 @@ void releaser_dongle(t_dongle *dongle)
 	dongle->last_released_time = current_time;
 	pthread_cond_broadcast(&dongle->cond);
 	pthread_mutex_unlock(&dongle->mutex);
+}
+void is_release(t_coder *coder)
+{
+	coder->last_compile_start = get_current_time();
+	usleep(coder->config->time_to_compile * 1000);
+	releaser_dongle(coder->left_dongle);
+	releaser_dongle(coder->right_dongle);
+	usleep(coder->config->time_to_debug * 1000);
+	usleep(coder->config->time_to_refactor * 1000);
 }
