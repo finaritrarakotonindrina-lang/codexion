@@ -6,14 +6,14 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/20 03:30:59 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/20 04:51:39 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all_struct.h"
 #include "codexion.h"
 
-void taker_dongle(t_dongle *dongle, t_config *config);
+void taker_dongle(t_dongle *dongle, t_config *config, int coder_id);
 void releaser_dongle(t_dongle *dongle);
 void is_release(t_coder *coder);
 
@@ -29,23 +29,24 @@ void *coder_behaviour(void *args)
 	coder = (t_coder *) args;
 	if (coder->id == coder->config->num_coders)
 	{
-		taker_dongle(coder->right_dongle, coder->config);
-		taker_dongle(coder->left_dongle, coder->config);
+		taker_dongle(coder->right_dongle, coder->config, coder->id);
+		taker_dongle(coder->left_dongle, coder->config, coder->id);
 		is_release(coder);
 	}
 	else
 	{
-		taker_dongle(coder->left_dongle, coder->config);
-		taker_dongle(coder->right_dongle, coder->config);
+		taker_dongle(coder->left_dongle, coder->config, coder->id);
+		taker_dongle(coder->right_dongle, coder->config, coder->id);
 		is_release(coder);
 	}
 	return(NULL);
 }
 
-void taker_dongle(t_dongle *dongle, t_config *config)
+void taker_dongle(t_dongle *dongle, t_config *config, int coder_id)
 {
 	long current_time;
 	current_time = get_current_time();
+	printf("DEBUG: coder %d essaie de prendre dongle %d\n", coder_id, dongle->id);
 	pthread_mutex_lock(&dongle->mutex);
 	while (dongle->is_taken == 1 || !(current_time - dongle->last_released_time >= config->dongle_cooldown))
 	{
@@ -53,6 +54,7 @@ void taker_dongle(t_dongle *dongle, t_config *config)
 		current_time = get_current_time();
 	}
 	dongle->is_taken = 1;
+	printf("DEBUG: dongle %d pris !\n", dongle->id);
 	pthread_mutex_unlock(&dongle->mutex);
 }
 void releaser_dongle(t_dongle *dongle)

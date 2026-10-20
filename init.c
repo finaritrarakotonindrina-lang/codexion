@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/13 03:13:57 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/20 04:10:52 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int dongles_init(t_config *config)
 		config->dongles[i].is_taken = 0;
 		config->dongles[i].last_released_time = 0;
 		pthread_mutex_init(&config->dongles[i].mutex, NULL);
+		pthread_cond_init(&config->dongles[i].cond, NULL);
 		i++;
 	}
 	return(0);
@@ -45,7 +46,7 @@ int coders_init(t_config *config)
 		config->coders[i].id = i + 1;
 		config->coders[i].last_compile_start = 0;
 		config->coders[i].left_dongle = &config->dongles[(i - 1 + config->num_coders) % config->num_coders];
-		config->coders[i].right_dongle = &config->dongles[(i + 1) % config->num_coders];
+		config->coders[i].right_dongle = &config->dongles[i];
 		config->coders[i].nbr_compile = 0;
 		config->coders[i].config = config;
 		i++;
