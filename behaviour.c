@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/21 19:29:57 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/21 23:33:26 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,44 +41,21 @@ void *coder_behaviour(void *args)
 	}
 	return (NULL);
 }
-
-// void taker_dongle(t_dongle *dongle, t_config *config, int coder_id)
-// {
-// 	long current_time;
-// 	current_time = get_current_time();
-// 	printf("DEBUG: coder %d essaie de prendre dongle %d\n", coder_id, dongle->id);
-// 	pthread_mutex_lock(&dongle->mutex);
-// 	while (dongle->is_taken == 1 || !(current_time - dongle->last_released_time >= config->dongle_cooldown))
-// 	{
-// 		pthread_cond_wait(&dongle->cond, &dongle->mutex);
-// 		current_time = get_current_time();
-// 	}
-// 	dongle->is_taken = 1;
-// 	printf("DEBUG: dongle %d pris !\n", dongle->id);
-// 	pthread_mutex_unlock(&dongle->mutex);
-// }
-
-
 void	taker_dongle(t_dongle *dongle, t_coder *coder)
 {
 	struct timespec ts;
-	long now;
-	long wakeup_ms;
-
+	long time_now;
+	long wakeup;
 	pthread_mutex_lock(&dongle->mutex);
-	now = get_current_time();
+	time_now = get_current_time();
 	while (dongle->is_taken == 1
-		|| now - dongle->last_released_time < coder->config->dongle_cooldown)
+		|| time_now - dongle->last_released_time < coder->config->dongle_cooldown)
 	{
-		if (dongle->is_taken == 1)
-			wakeup_ms = now + 100000;
-		else
-			wakeup_ms = dongle->last_released_time
-				+ coder->config->dongle_cooldown;
-		ts.tv_sec  = wakeup_ms / 1000;
-		ts.tv_nsec = (wakeup_ms % 1000) * 1000000L;
+		wakeup = dongle->last_released_time + coder->config->dongle_cooldown;
+		ts.tv_sec  = wakeup / 1000;
+		ts.tv_nsec = (wakeup % 1000) * 1000000L;
 		pthread_cond_timedwait(&dongle->cond, &dongle->mutex, &ts);
-		now = get_current_time();
+		time_now = get_current_time();
 	}
 	dongle->is_taken = 1;
 	pthread_mutex_unlock(&dongle->mutex);
