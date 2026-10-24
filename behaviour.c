@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/24 18:44:50 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/24 18:51:54 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 void	taker_dongle(t_dongle *dongle, t_coder *coder);
 void releaser_dongle(t_dongle *dongle);
 void is_release(t_coder *coder);
-int all_coders_done(t_coder *coders);
 
 long get_current_time()
 {
@@ -86,15 +85,4 @@ void is_release(t_coder *coder)
 	usleep(coder->config->time_to_debug * 1000);
 	usleep(coder->config->time_to_refactor * 1000);
 }
-int all_coders_done(t_coder *coders)
-{
-	int i;
-	i = 0;
-	while (i < coders->config->num_coders)
-	{
-		if(coders[i].nbr_compile < coders[i].config->num_compiles_required)
-			return(0);
-		i++;
-	}
-	return (1);
-}
+
