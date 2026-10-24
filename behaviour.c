@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/21 23:33:26 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/24 18:44:50 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 void	taker_dongle(t_dongle *dongle, t_coder *coder);
 void releaser_dongle(t_dongle *dongle);
 void is_release(t_coder *coder);
+int all_coders_done(t_coder *coders);
 
 long get_current_time()
 {
@@ -26,18 +27,20 @@ long get_current_time()
 void *coder_behaviour(void *args)
 {
 	t_coder *coder = (t_coder *) args;
-
-	if (coder->id == coder->config->num_coders)
+	while (coder->config->stop != 1)
 	{
-		taker_dongle(coder->right_dongle, coder);
-		taker_dongle(coder->left_dongle,  coder);
-		is_release(coder);
-	}
-	else
-	{
-		taker_dongle(coder->left_dongle,  coder);
-		taker_dongle(coder->right_dongle, coder);
-		is_release(coder);
+		if (coder->id == coder->config->num_coders)
+		{
+			taker_dongle(coder->right_dongle, coder);
+			taker_dongle(coder->left_dongle,  coder);
+			is_release(coder);
+		}
+		else
+		{
+			taker_dongle(coder->left_dongle,  coder);
+			taker_dongle(coder->right_dongle, coder);
+			is_release(coder);
+		}
 	}
 	return (NULL);
 }
@@ -75,8 +78,23 @@ void is_release(t_coder *coder)
 {
 	coder->last_compile_start = get_current_time();
 	usleep(coder->config->time_to_compile * 1000);
+	coder->nbr_compile++;
+	if(all_coders_done(coder->config->coders))
+		coder->config->stop = 1;
 	releaser_dongle(coder->left_dongle);
 	releaser_dongle(coder->right_dongle);
 	usleep(coder->config->time_to_debug * 1000);
 	usleep(coder->config->time_to_refactor * 1000);
+}
+int all_coders_done(t_coder *coders)
+{
+	int i;
+	i = 0;
+	while (i < coders->config->num_coders)
+	{
+		if(coders[i].nbr_compile < coders[i].config->num_compiles_required)
+			return(0);
+		i++;
+	}
+	return (1);
 }
