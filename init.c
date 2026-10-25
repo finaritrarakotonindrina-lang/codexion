@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/25 11:34:43 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/25 12:47:26 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int coders_init(t_config *config)
 	while (i < config->num_coders)
 	{
 		config->coders[i].id = i + 1;
-		config->coders[i].last_compile_start = 0;
+		config->coders[i].last_compile_start = get_current_time();
 		config->coders[i].left_dongle = &config->dongles[(i - 1 + config->num_coders) % config->num_coders];
 		config->coders[i].right_dongle = &config->dongles[i];
 		config->coders[i].nbr_compile = 0;
