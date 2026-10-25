@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/24 18:51:39 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/25 11:34:43 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,4 @@ void pthread_join_init(t_config *config)
 		j++;
 	}
 }
-int all_coders_done(t_coder *coders)
-{
-	int i;
-	i = 0;
-	while (i < coders->config->num_coders)
-	{
-		if(coders[i].nbr_compile < coders[i].config->num_compiles_required)
-			return(0);
-		i++;
-	}
-	return (1);
-}
+

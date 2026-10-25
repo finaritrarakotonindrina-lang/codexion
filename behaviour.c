@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/24 18:51:54 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/25 11:36:53 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ long get_current_time()
 }
 void *coder_behaviour(void *args)
 {
-	t_coder *coder = (t_coder *) args;
+	t_coder *coder;
+	coder = (t_coder *) args;
 	while (coder->config->stop != 1)
 	{
 		if (coder->id == coder->config->num_coders)
