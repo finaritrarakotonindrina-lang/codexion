@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/01 22:25:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/20 03:53:03 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/25 12:24:03 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	pthread_create_init(&config);
+	pthread_create(&config.monitor, NULL, monitor_behavior, (void *)&config);
 	pthread_join_init(&config);
 	return (0);
 }

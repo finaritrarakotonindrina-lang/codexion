@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/17 19:28:21 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/25 12:17:07 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_config
 	int					stop;
 	t_shedulers			sheduler;
 	pthread_mutex_t		lock;
+	pthread_t			monitor;
 	t_coder				*coders;
 	t_dongle			*dongles;
 }						t_config;
