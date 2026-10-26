@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:42:26 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/26 23:13:21 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/26 23:33:43 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,5 @@ void is_release(t_coder *coder);
 int all_coders_done(t_coder *coders);
 void *monitor_behavior(void *args);
 void action_log(t_config *config, int coder_id, char *msg);
+void init_config(t_config *config);
 #endif
