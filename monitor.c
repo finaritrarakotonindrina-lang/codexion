@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 11:34:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/27 00:11:40 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/27 00:37:32 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void *monitor_behavior(void *args)
 		{
 			the_time = get_current_time();
 			if(the_time - config->coders[i].last_compile_start >= config->time_to_burnout)
+			{
+				action_log(config, config->coders[i].id, "burned out");
 				config->stop = 1;
+			}
 			i++;
 		}
 		usleep(10000);
