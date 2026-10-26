@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 11:34:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/27 00:37:32 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/27 01:02:46 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void *monitor_behavior(void *args)
 }
 void action_log(t_config *config, int coder_id, char *msg)
 {
-	phtread_mutex_lock(&config->lock);
-	printf("%ld %d %s\n", get_current_time(), coder_id, msg);
+	pthread_mutex_lock(&config->lock);
+	printf("%ld %d %s\n", get_current_time() - config->time_program_start, coder_id, msg);
 	pthread_mutex_unlock(&config->lock);
 }

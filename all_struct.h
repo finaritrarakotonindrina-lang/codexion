@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/25 12:17:07 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/27 00:59:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_config
 	long				time_to_refactor;
 	long				num_compiles_required;
 	long				dongle_cooldown;
+	long				time_program_start;
 	int					stop;
 	t_shedulers			sheduler;
 	pthread_mutex_t		lock;

@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/26 23:40:11 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/27 00:59:30 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void pthread_join_init(t_config *config)
 void init_config(t_config *config)
 {
 	config->stop = 0;
+	config->time_program_start = get_current_time();
 	pthread_mutex_init(&config->lock, NULL);
 }
