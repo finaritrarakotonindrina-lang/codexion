@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/01 22:25:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/26 23:34:57 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/26 23:41:38 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 int	main(int argc, char **argv)
 {
-	int i;
-	int j;
-	i = 0;
-	j = 0;
 	t_config	config;
 	parce_arg(argc, argv, &config);
 	init_config(&config);
