@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 11:34:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/25 11:58:19 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/26 23:13:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ void *monitor_behavior(void *args)
 		usleep(10000);
 	}
 	return (NULL);
+}
+void action_log(t_config *config, int coder_id, char *msg)
+{
+	phtread_mutex_lock(config->lock);
+	printf("here");
+	pthread_mutex_unlock(config->lock);
 }
