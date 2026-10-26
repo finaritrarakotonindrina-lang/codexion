@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/25 11:36:53 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/27 00:18:15 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,17 @@ void *coder_behaviour(void *args)
 		if (coder->id == coder->config->num_coders)
 		{
 			taker_dongle(coder->right_dongle, coder);
+			action_log(coder->config, coder->id, "has taken a dongle");
 			taker_dongle(coder->left_dongle,  coder);
+			action_log(coder->config, coder->id, "has taken a dongle");
 			is_release(coder);
 		}
 		else
 		{
 			taker_dongle(coder->left_dongle,  coder);
+			action_log(coder->config, coder->id, "has taken a dongle");
 			taker_dongle(coder->right_dongle, coder);
+			action_log(coder->config, coder->id, "has taken a dongle");
 			is_release(coder);
 		}
 	}
@@ -77,13 +81,16 @@ void releaser_dongle(t_dongle *dongle)
 void is_release(t_coder *coder)
 {
 	coder->last_compile_start = get_current_time();
+	action_log(coder->config, coder->id, "is compiling");
 	usleep(coder->config->time_to_compile * 1000);
 	coder->nbr_compile++;
 	if(all_coders_done(coder->config->coders))
 		coder->config->stop = 1;
 	releaser_dongle(coder->left_dongle);
 	releaser_dongle(coder->right_dongle);
+	action_log(coder->config, coder->id, "is debugging");
 	usleep(coder->config->time_to_debug * 1000);
+	action_log(coder->config, coder->id, "is refactoring");
 	usleep(coder->config->time_to_refactor * 1000);
 }
 
