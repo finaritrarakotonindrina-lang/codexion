@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/19 12:41:54 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/27 00:59:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/31 07:20:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@
 # include <sys/time.h>
 
 typedef struct s_config	t_config;
-typedef enum	e_shedulers
+typedef struct s_coder	t_coder;
+
+typedef enum e_shedulers
 {
 	fifo,
 	edf
 }				t_shedulers;
+
 typedef struct s_dongle
 {
 	int					id;
@@ -34,6 +37,8 @@ typedef struct s_dongle
 	long				last_released_time;
 	pthread_mutex_t		mutex;
 	pthread_cond_t		cond;
+	t_coder				*waiters[4];
+	int					waiter_count;
 }						t_dongle;
 
 typedef struct s_coder
@@ -41,7 +46,11 @@ typedef struct s_coder
 	int					id;
 	int					nbr_compile;
 	long				last_compile_start;
+	long				request_time;
 	pthread_t			thread;
+	pthread_mutex_t		coder_lock;
+	t_dongle			*first_dongle;
+	t_dongle			*second_dongle;
 	t_dongle			*left_dongle;
 	t_dongle			*right_dongle;
 	t_config			*config;

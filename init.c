@@ -6,16 +6,17 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/27 00:59:30 by finarako         ###   ########.fr       */
+/*   Updated: 2026/10/31 07:20:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all_struct.h"
 #include "codexion.h"
 
-int dongles_init(t_config *config)
+int	dongles_init(t_config *config)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	config->dongles = malloc(sizeof(t_dongle) * config->num_coders);
 	if (!config->dongles)
@@ -25,41 +26,65 @@ int dongles_init(t_config *config)
 		config->dongles[i].id = i;
 		config->dongles[i].is_taken = 0;
 		config->dongles[i].last_released_time = 0;
+		config->dongles[i].waiter_count = 0;
+		config->dongles[i].waiters[0] = NULL;
+		config->dongles[i].waiters[1] = NULL;
+		config->dongles[i].waiters[2] = NULL;
+		config->dongles[i].waiters[3] = NULL;
 		pthread_mutex_init(&config->dongles[i].mutex, NULL);
 		pthread_cond_init(&config->dongles[i].cond, NULL);
 		i++;
 	}
-	return(0);
+	return (0);
 }
-int coders_init(t_config *config)
+
+int	coders_init(t_config *config)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	config->coders = malloc(sizeof(t_coder) * config->num_coders);
 	if (!config->coders)
-	{
-		free(config->dongles);
-		return(-1);
-	}
+		return (-1);
 	while (i < config->num_coders)
 	{
 		config->coders[i].id = i + 1;
-		config->coders[i].last_compile_start = get_current_time();
-		config->coders[i].left_dongle = &config->dongles[(i - 1 + config->num_coders) % config->num_coders];
-		config->coders[i].right_dongle = &config->dongles[i];
 		config->coders[i].nbr_compile = 0;
+		config->coders[i].last_compile_start = 0;
+		config->coders[i].request_time = 0;
+		pthread_mutex_init(&config->coders[i].coder_lock, NULL);
+		config->coders[i].left_dongle = &config->dongles[(i - 1
+				+ config->num_coders) % config->num_coders];
+		config->coders[i].right_dongle = &config->dongles[i];
+		if (config->coders[i].id == config->num_coders)
+		{
+			config->coders[i].first_dongle = config->coders[i].right_dongle;
+			config->coders[i].second_dongle = config->coders[i].left_dongle;
+		}
+		else
+		{
+			config->coders[i].first_dongle = config->coders[i].left_dongle;
+			config->coders[i].second_dongle = config->coders[i].right_dongle;
+		}
 		config->coders[i].config = config;
 		i++;
 	}
 	return (0);
 }
-void pthread_create_init(t_config *config)
+
+void	pthread_create_init(t_config *config)
 {
-	int i;
+	int		i;
+	long	start;
+
+	start = get_current_time();
+	config->time_program_start = start;
 	i = 0;
-		while (i < config->num_coders)
+	while (i < config->num_coders)
 	{
-		if (pthread_create(&config->coders[i].thread, NULL, coder_behaviour, (void *)&config->coders[i]) != 0)
+		config->coders[i].last_compile_start = start;
+		if (pthread_create(&config->coders[i].thread, NULL,
+				coder_behaviour, (void *)&config->coders[i]) != 0)
 		{
 			printf("error creating thread");
 			exit(1);
@@ -68,20 +93,20 @@ void pthread_create_init(t_config *config)
 	}
 }
 
-void pthread_join_init(t_config *config)
+void	pthread_join_init(t_config *config)
 {
-	int j;
+	int	j;
+
 	j = 0;
-		while(j < config->num_coders)
+	while (j < config->num_coders)
 	{
 		pthread_join(config->coders[j].thread, NULL);
 		j++;
 	}
 }
 
-void init_config(t_config *config)
+void	init_config(t_config *config)
 {
 	config->stop = 0;
-	config->time_program_start = get_current_time();
 	pthread_mutex_init(&config->lock, NULL);
 }
