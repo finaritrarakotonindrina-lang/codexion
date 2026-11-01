@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/25 11:34:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/11/01 08:08:24 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_stop(t_config *config)
 	pthread_mutex_unlock(&config->lock);
 	return (stop);
 }
-git 
+
 void	set_stop(t_config *config, int val)
 {
 	int	i;
@@ -69,22 +69,17 @@ void	*monitor_behavior(void *args)
 	while (!get_stop(config))
 	{
 		if (all_coders_done(config->coders))
-		{
-			set_stop(config, 1);
-			return (NULL);
-		}
-		i = 0;
-		while (i < config->num_coders)
+			return (set_stop(config, 1), NULL);
+		i = -1;
+		while (++i < config->num_coders)
 		{
 			the_time = get_current_time();
 			if (the_time - get_last_compile(&config->coders[i])
 				>= config->time_to_burnout)
 			{
 				action_log(config, config->coders[i].id, "burned out");
-				set_stop(config, 1);
-				return (NULL);
+				return (set_stop(config, 1), NULL);
 			}
-			i++;
 		}
 		usleep(1000);
 	}

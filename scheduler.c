@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/31 07:20:00 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/31 07:20:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,3 +94,11 @@ int	has_highest_priority(t_dongle *dongle, t_coder *coder)
 	return (1);
 }
 
+void	releaser_dongle(t_dongle *dongle)
+{
+	pthread_mutex_lock(&dongle->mutex);
+	dongle->is_taken = 0;
+	dongle->last_released_time = get_current_time();
+	pthread_cond_broadcast(&dongle->cond);
+	pthread_mutex_unlock(&dongle->mutex);
+}

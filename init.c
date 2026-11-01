@@ -6,12 +6,18 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/04 11:08:50 by finarako          #+#    #+#             */
-/*   Updated: 2026/10/31 07:20:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "all_struct.h"
 #include "codexion.h"
+
+void	init_config(t_config *config)
+{
+	config->stop = 0;
+	pthread_mutex_init(&config->lock, NULL);
+}
 
 int	dongles_init(t_config *config)
 {
@@ -27,10 +33,6 @@ int	dongles_init(t_config *config)
 		config->dongles[i].is_taken = 0;
 		config->dongles[i].last_released_time = 0;
 		config->dongles[i].waiter_count = 0;
-		config->dongles[i].waiters[0] = NULL;
-		config->dongles[i].waiters[1] = NULL;
-		config->dongles[i].waiters[2] = NULL;
-		config->dongles[i].waiters[3] = NULL;
 		pthread_mutex_init(&config->dongles[i].mutex, NULL);
 		pthread_cond_init(&config->dongles[i].cond, NULL);
 		i++;
@@ -38,14 +40,28 @@ int	dongles_init(t_config *config)
 	return (0);
 }
 
+static void	init_coder_dongles(t_coder *coder, t_config *config, int i)
+{
+	coder->left_dongle = &config->dongles[(i - 1
+			+ config->num_coders) % config->num_coders];
+	coder->right_dongle = &config->dongles[i];
+	coder->first_dongle = coder->left_dongle;
+	coder->second_dongle = coder->right_dongle;
+	if (coder->id == config->num_coders)
+	{
+		coder->first_dongle = coder->right_dongle;
+		coder->second_dongle = coder->left_dongle;
+	}
+}
+
 int	coders_init(t_config *config)
 {
 	int	i;
 
-	i = 0;
 	config->coders = malloc(sizeof(t_coder) * config->num_coders);
 	if (!config->coders)
 		return (-1);
+	i = 0;
 	while (i < config->num_coders)
 	{
 		config->coders[i].id = i + 1;
@@ -53,19 +69,7 @@ int	coders_init(t_config *config)
 		config->coders[i].last_compile_start = 0;
 		config->coders[i].request_time = 0;
 		pthread_mutex_init(&config->coders[i].coder_lock, NULL);
-		config->coders[i].left_dongle = &config->dongles[(i - 1
-				+ config->num_coders) % config->num_coders];
-		config->coders[i].right_dongle = &config->dongles[i];
-		if (config->coders[i].id == config->num_coders)
-		{
-			config->coders[i].first_dongle = config->coders[i].right_dongle;
-			config->coders[i].second_dongle = config->coders[i].left_dongle;
-		}
-		else
-		{
-			config->coders[i].first_dongle = config->coders[i].left_dongle;
-			config->coders[i].second_dongle = config->coders[i].right_dongle;
-		}
+		init_coder_dongles(&config->coders[i], config, i);
 		config->coders[i].config = config;
 		i++;
 	}
@@ -91,22 +95,4 @@ void	pthread_create_init(t_config *config)
 		}
 		i++;
 	}
-}
-
-void	pthread_join_init(t_config *config)
-{
-	int	j;
-
-	j = 0;
-	while (j < config->num_coders)
-	{
-		pthread_join(config->coders[j].thread, NULL);
-		j++;
-	}
-}
-
-void	init_config(t_config *config)
-{
-	config->stop = 0;
-	pthread_mutex_init(&config->lock, NULL);
 }

@@ -6,7 +6,7 @@
 #    By: finarako <finarako@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/31 06:55:00 by finarako          #+#    #+#              #
-#    Updated: 2026/10/31 07:20:00 by finarako         ###   ########.fr        #
+#    Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS		= codexion.c \
 			  init.c \
 			  behaviour.c \
 			  monitor.c \
-			  scheduler.c
+			  scheduler.c \
+			  utils.c
 
 OBJS		= $(SRCS:.c=.o)
 
