@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/01 08:25:00 by finarako          #+#    #+#             */
-/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/01 09:42:13 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,3 @@ void	ft_usleep(long time_in_ms, t_config *config)
 		usleep(500);
 	}
 }
-
