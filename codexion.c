@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/01 22:25:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/17 22:34:13 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,12 @@ int	main(int argc, char **argv)
 		exit(1);
 	}
 	pthread_create_init(&config);
-	pthread_create(&config.monitor, NULL, monitor_behavior, (void *)&config);
+	if (pthread_create(&config.monitor, NULL, monitor_behavior,
+			(void *) &config) != 0)
+	{
+		printf("ERROR creating pthread\n");
+		exit(1);
+	}
 	pthread_join_init(&config);
 	pthread_join(config.monitor, NULL);
 	cleanup_all(&config);
