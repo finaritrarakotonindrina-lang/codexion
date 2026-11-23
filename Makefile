@@ -6,26 +6,26 @@
 #    By: finarako <finarako@student.42antananari    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/31 06:55:00 by finarako          #+#    #+#              #
-#    Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr        #
+#    Updated: 2026/11/23 21:00:00 by finarako         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= codexion
 
 CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -pthread
+CFLAGS		= -Wall -Wextra -Werror -pthread -Isrc
 
-SRCS		= codexion.c \
-			  parsing.c \
-			  init.c \
-			  behaviour.c \
-			  monitor.c \
-			  scheduler.c \
-			  utils.c
+SRCDIR		= src
+SRCS		= $(SRCDIR)/codexion.c \
+			  $(SRCDIR)/parsing.c \
+			  $(SRCDIR)/init.c \
+			  $(SRCDIR)/behaviour.c \
+			  $(SRCDIR)/monitor.c \
+			  $(SRCDIR)/scheduler.c \
+			  $(SRCDIR)/utils.c
 
 OBJS		= $(SRCS:.c=.o)
-
-HEADERS		= codexion.h all_struct.h
+HEADERS		= $(SRCDIR)/codexion.h $(SRCDIR)/all_struct.h
 
 RM			= rm -f
 
@@ -34,7 +34,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-%.o: %.c $(HEADERS)
+$(SRCDIR)/%.o: $(SRCDIR)/%.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -22,14 +22,17 @@ long	ft_atol(char *str)
 	i = 0;
 	if (!str || !*str)
 		return (-1);
+	if (str[i] == '+')
+		i++;
+	if (!str[i])
+		return (-1);
 	while (str[i])
 	{
 		if (str[i] < '0' || str[i] > '9')
 			return (-1);
-		if (result > (LONG_MAX / 10) || (result == (LONG_MAX / 10)
-				&& (str[i] - '0') > (LONG_MAX % 10)))
-			return (-1);
 		result = result * 10 + (str[i] - '0');
+		if (result > INT_MAX)
+			return (-1);
 		i++;
 	}
 	return (result);
@@ -40,11 +43,6 @@ long	is_positive(char *argv)
 	long	result;
 
 	result = ft_atol(argv);
-	if (result < 0)
-	{
-		printf("ERROR VALUE! THE PROGRAM STOP! SORRY\n");
-		exit(1);
-	}
 	return (result);
 }
 
@@ -54,20 +52,13 @@ int	is_sheduler(char *argv)
 		return (0);
 	else if (strcmp(argv, "edf") == 0)
 		return (1);
-	else
-	{
-		printf("ERROR VALUE! THE PROGRAM STOP! SORRY\n");
-		exit(1);
-	}
+	return (-1);
 }
 
-void	parce_arg(int argc, char **argv, t_config *config)
+int	parce_arg(int argc, char **argv, t_config *config)
 {
 	if (argc != 9)
-	{
-		printf("ERROR VALUE! THE PROGRAM STOP! SORRY\n");
-		exit(1);
-	}
+		return (printf("ERROR VALUE! THE PROGRAM STOP! SORRY\n"), 1);
 	config->num_coders = is_positive(argv[1]);
 	config->time_to_burnout = is_positive(argv[2]);
 	config->time_to_compile = is_positive(argv[3]);
@@ -76,6 +67,12 @@ void	parce_arg(int argc, char **argv, t_config *config)
 	config->num_compiles_required = is_positive(argv[6]);
 	config->dongle_cooldown = is_positive(argv[7]);
 	config->sheduler = is_sheduler(argv[8]);
+	if (config->num_coders <= 0 || config->time_to_burnout <= 0
+		|| config->time_to_compile < 0 || config->time_to_debug < 0
+		|| config->time_to_refactor < 0 || config->num_compiles_required < 0
+		|| config->dongle_cooldown < 0 || (int)config->sheduler == -1)
+		return (printf("ERROR VALUE! THE PROGRAM STOP! SORRY\n"), 1);
+	return (0);
 }
 
 long	get_current_time(void)

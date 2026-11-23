@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/12 20:05:40 by finarako          #+#    #+#             */
-/*   Updated: 2026/11/01 08:25:00 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/23 20:18:26 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ static void	wait_cooldown(t_dongle *dongle, t_coder *coder, long now)
 static int	try_take(t_dongle *dongle, t_coder *coder, long time_now)
 {
 	if (!dongle->is_taken
-		&& (time_now - dongle->last_released_time
-			>= coder->config->dongle_cooldown)
+		&& (coder->config->dongle_cooldown == 0
+			|| (time_now - dongle->last_released_time
+				>= coder->config->dongle_cooldown))
 		&& has_highest_priority(dongle, coder))
 	{
 		dongle->is_taken = 1;
@@ -97,6 +98,8 @@ void	is_release(t_coder *c)
 		refactor = c->config->time_to_compile * 2 - c->config->time_to_debug;
 	if (refactor > 0)
 		ft_usleep(refactor, c->config);
+	if (c->config->time_to_compile == 0 && c->config->time_to_debug == 0)
+		usleep(100);
 }
 
 void	*coder_behaviour(void *args)

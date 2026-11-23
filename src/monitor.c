@@ -47,8 +47,8 @@ int	all_coders_done(t_coder *coders)
 {
 	int	i;
 
-	if (coders->config->num_compiles_required <= 0)
-		return (0);
+	if (coders->config->num_compiles_required == 0)
+		return (1);
 	i = 0;
 	while (i < coders->config->num_coders)
 	{
@@ -75,7 +75,7 @@ void	*monitor_behavior(void *args)
 		{
 			the_time = get_current_time();
 			if (the_time - get_last_compile(&config->coders[i])
-				>= config->time_to_burnout)
+				> config->time_to_burnout)
 			{
 				action_log(config, config->coders[i].id, "burned out");
 				return (set_stop(config, 1), NULL);

@@ -16,6 +16,8 @@
 void	init_config(t_config *config)
 {
 	config->stop = 0;
+	config->coders = NULL;
+	config->dongles = NULL;
 	pthread_mutex_init(&config->lock, NULL);
 }
 
@@ -76,7 +78,7 @@ int	coders_init(t_config *config)
 	return (0);
 }
 
-void	pthread_create_init(t_config *config)
+int	pthread_create_init(t_config *config)
 {
 	int		i;
 	long	start;
@@ -89,10 +91,8 @@ void	pthread_create_init(t_config *config)
 		config->coders[i].last_compile_start = start;
 		if (pthread_create(&config->coders[i].thread, NULL,
 				coder_behaviour, (void *)&config->coders[i]) != 0)
-		{
-			printf("error creating thread");
-			exit(1);
-		}
+			return (-1);
 		i++;
 	}
+	return (0);
 }

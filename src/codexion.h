@@ -19,14 +19,14 @@ int		main(int argc, char **argv);
 void	cleanup_all(t_config *config);
 long	ft_atol(char *str);
 long	is_positive(char *argv);
-void	parce_arg(int argc, char **argv, t_config *config);
+int		parce_arg(int argc, char **argv, t_config *config);
 int		is_sheduler(char *argv);
 long	get_current_time(void);
 
 int		coders_init(t_config *config);
 int		dongles_init(t_config *config);
 void	init_config(t_config *config);
-void	pthread_create_init(t_config *config);
+int		pthread_create_init(t_config *config);
 void	pthread_join_init(t_config *config);
 
 void	*coder_behaviour(void *args);

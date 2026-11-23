@@ -6,7 +6,7 @@
 /*   By: finarako <finarako@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/01 22:25:18 by finarako          #+#    #+#             */
-/*   Updated: 2026/11/17 22:34:13 by finarako         ###   ########.fr       */
+/*   Updated: 2026/11/20 00:21:14 by finarako         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void	cleanup_all(t_config *config)
 	int	i;
 
 	i = 0;
-	while (i < config->num_coders)
+	while (config->dongles && i < config->num_coders)
 	{
 		pthread_mutex_destroy(&config->dongles[i].mutex);
 		pthread_cond_destroy(&config->dongles[i].cond);
+		i++;
+	}
+	i = 0;
+	while (config->coders && i < config->num_coders)
+	{
 		pthread_mutex_destroy(&config->coders[i].coder_lock);
 		i++;
 	}
@@ -46,19 +51,23 @@ int	main(int argc, char **argv)
 {
 	t_config	config;
 
-	parce_arg(argc, argv, &config);
 	init_config(&config);
+	if (parce_arg(argc, argv, &config) != 0)
+		return (1);
+	if (config.num_compiles_required == 0)
+		return (0);
 	if (dongles_init(&config) == -1 || coders_init(&config) == -1)
 	{
-		printf("error allocating memorie");
-		exit(1);
+		cleanup_all(&config);
+		return (printf("error allocating memorie\n"), 1);
 	}
-	pthread_create_init(&config);
-	if (pthread_create(&config.monitor, NULL, monitor_behavior,
-			(void *) &config) != 0)
+	if (pthread_create_init(&config) == -1
+		|| pthread_create(&config.monitor, NULL, monitor_behavior,
+			&config) != 0)
 	{
-		printf("ERROR creating pthread\n");
-		exit(1);
+		set_stop(&config, 1);
+		cleanup_all(&config);
+		return (printf("ERROR creating pthread\n"), 1);
 	}
 	pthread_join_init(&config);
 	pthread_join(config.monitor, NULL);
